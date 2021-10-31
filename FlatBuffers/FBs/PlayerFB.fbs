@@ -1,0 +1,24 @@
+﻿include "Definitions.fbs";
+
+namespace hololensMulti;
+
+table TransformFB{
+  PlayerID:ubyte;
+  Pos:Vec3;
+  QrOffset:Vec3;
+  Rot:Quat;
+  
+  RHActive:bool;
+  RHState:HandState;
+  RHPos:Vec3;
+  RHRot:Quat;
+  RHPointerPos:Vec3;
+
+  LHActive:bool;
+  LHState:HandState;
+  LHPos:Vec3;
+  LHRot:Quat;
+  LHPointerPos:Vec3;  
+}
+
+root_type TransformFB;

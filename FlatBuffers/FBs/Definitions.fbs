@@ -1,0 +1,22 @@
+﻿namespace hololensMulti;
+
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+struct Quat {
+  x:float;
+  y:float;
+  z:float;
+  w:float;
+}
+
+struct HandState {
+  Pinky:ubyte;
+  Ring:ubyte;
+  Middle:ubyte;
+  Index:ubyte;
+  Thumb:ubyte;
+}

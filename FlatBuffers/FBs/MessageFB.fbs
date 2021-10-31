@@ -1,0 +1,10 @@
+﻿include "Definitions.fbs";
+
+namespace hololensMulti;
+
+table MessageFB {
+  MessageType:ubyte;
+  Data:[ubyte];
+}
+
+root_type MessageFB;

@@ -1,0 +1,10 @@
+﻿include "Definitions.fbs";
+include "PlayerFB.fbs";
+
+namespace hololensMulti;
+
+table PlayerTransformStack {
+  PlayerTransforms:[TransformFB];
+}
+
+root_type PlayerTransformStack;

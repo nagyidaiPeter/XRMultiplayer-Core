@@ -1,0 +1,10 @@
+﻿include "Definitions.fbs";
+
+namespace hololensMulti;
+
+table WelcomeFB {
+  PlayerID:ubyte;
+  PlayerName:string;
+}
+
+root_type WelcomeFB;
