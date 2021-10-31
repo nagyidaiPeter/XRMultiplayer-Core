@@ -1,5 +1,8 @@
+#if UNITY_WSA
 using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit.Utilities;
+using Microsoft.MixedReality.Toolkit.Utilities; 
+#endif
+
 using System.Linq;
 using UnityEngine;
 
@@ -23,8 +26,12 @@ public struct FingersState
 
 public class HandTracker : MonoBehaviour
 {
+
+#if UNITY_WSA
     public Handedness handedness;
-    public TrackedHandJoint trackedJoint;
+    public TrackedHandJoint trackedJoint; 
+#endif
+
     public bool IsTracked = false;
 
     public Vector3 pointerPos;
@@ -33,6 +40,7 @@ public class HandTracker : MonoBehaviour
 
     void Update()
     {
+#if UNITY_WSA
         MixedRealityPose pose;
         IsTracked = HandJointUtils.TryGetJointPose(trackedJoint, handedness, out pose);
         if (IsTracked)
@@ -60,6 +68,7 @@ public class HandTracker : MonoBehaviour
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(IsTracked);
-        }
+        } 
+#endif
     }
 }
