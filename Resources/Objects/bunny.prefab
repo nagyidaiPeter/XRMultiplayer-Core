@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3755059465161515386}
   - component: {fileID: 3838501937693321724}
   - component: {fileID: 8195361598736662205}
-  - component: {fileID: 1541867965973999739}
+  - component: {fileID: 5887494355989098579}
   m_Layer: 0
   m_Name: bunny
   m_TagString: Untagged
@@ -319,8 +319,8 @@ MonoBehaviour:
   InterVel: 25
   qrPos: {fileID: 0}
   RefreshRate: 30
---- !u!135 &1541867965973999739
-SphereCollider:
+--- !u!65 &5887494355989098579
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -330,8 +330,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.18379116
-  m_Center: {x: 0.0071581006, y: 0.13536912, z: 0}
+  m_Size: {x: 0.30152676, y: 0.29900765, z: 0.23519084}
+  m_Center: {x: -0.000000014901161, y: 0.14820614, z: -0.029809162}
 --- !u!1001 &838247580306739763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a576e549efef13d4580b87a6867a0cfb, type: 3}
       propertyPath: m_Name
-      value: bunny (2)
+      value: bunny
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a576e549efef13d4580b87a6867a0cfb, type: 3}
