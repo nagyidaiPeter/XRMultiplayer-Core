@@ -3,7 +3,7 @@ using hololensMultiModels;
 using LiteNetLib;
 using UnityEngine;
 
-namespace hololensMultiplayer
+namespace XRMultiplayer
 {
     public class PlayerData
     {

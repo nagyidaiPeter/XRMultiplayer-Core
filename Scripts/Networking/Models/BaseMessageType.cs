@@ -1,6 +1,6 @@
-﻿using hololensMultiplayer.Packets;
+﻿using XRMultiplayer.Packets;
 
-namespace hololensMultiplayer.Models
+namespace XRMultiplayer.Models
 {
     public enum MessageTypes : byte
     {

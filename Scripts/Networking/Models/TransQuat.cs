@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.SERVER.Models
+namespace XRMultiplayer.Networking.SERVER.Models
 {
     public class TransQuat
     {

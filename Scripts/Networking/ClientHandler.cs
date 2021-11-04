@@ -1,11 +1,7 @@
-﻿using Assets.Scripts.SERVER.Processors;
-
-using FlatBuffers;
-
-using hololensMultiplayer;
-using hololensMultiplayer.Models;
-using hololensMultiplayer.Networking;
-using hololensMultiplayer.Packets;
+﻿using XRMultiplayer;
+using XRMultiplayer.Models;
+using XRMultiplayer.Networking;
+using XRMultiplayer.Packets;
 using LiteNetLib;
 using LiteNetLib.Utils;
 
@@ -17,6 +13,7 @@ using System.Text;
 using UnityEngine;
 
 using Zenject;
+using XRMultiplayer.Networking.CLIENT.Processors;
 
 public class ClientHandler : MonoBehaviour
 {

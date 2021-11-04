@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using hololensMultiplayer.Models;
+using XRMultiplayer.Models;
 using LiteNetLib;
 
-namespace hololensMultiplayer.Networking
+namespace XRMultiplayer.Networking
 {
     public interface IProcessor
     {

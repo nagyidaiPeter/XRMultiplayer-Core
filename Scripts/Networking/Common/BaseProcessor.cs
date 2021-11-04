@@ -1,9 +1,9 @@
-﻿using hololensMultiplayer.Models;
+﻿using XRMultiplayer.Models;
 using LiteNetLib;
 using System.Collections.Generic;
 using Zenject;
 
-namespace hololensMultiplayer.Networking
+namespace XRMultiplayer.Networking
 {
     public abstract class BaseProcessor : IProcessor
     {

@@ -1,11 +1,11 @@
 ﻿using Assets.FlatBuffers;
 using FlatBuffers;
 using hololensMulti;
-using hololensMultiplayer.Packets;
+using XRMultiplayer.Packets;
 using LiteNetLib;
 using UnityEngine;
 
-namespace hololensMultiplayer.Models
+namespace XRMultiplayer.Models
 {
     public class ObjectTransform : BaseMessageType
     {

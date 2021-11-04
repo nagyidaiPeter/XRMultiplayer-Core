@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Assets.Scripts.SERVER.Processors;
+using XRMultiplayer.Networking.SERVER.Processors;
 
-using hololensMultiplayer;
-using hololensMultiplayer.Models;
+using XRMultiplayer;
+using XRMultiplayer.Models;
 
 using UnityEngine;
 
 using Zenject;
+using XRMultiplayer.Networking.CLIENT.Processors;
 
 public class NetworkObject : MonoBehaviour
 {

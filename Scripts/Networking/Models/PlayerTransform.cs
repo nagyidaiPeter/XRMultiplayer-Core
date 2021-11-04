@@ -2,8 +2,8 @@
 using Assets.FlatBuffers;
 using FlatBuffers;
 using hololensMulti;
-using hololensMultiplayer.Models;
-using hololensMultiplayer.Packets;
+using XRMultiplayer.Models;
+using XRMultiplayer.Packets;
 using LiteNetLib;
 using System.Collections.Generic;
 using UnityEngine;

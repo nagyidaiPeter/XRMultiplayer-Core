@@ -1,4 +1,4 @@
-using hololensMultiplayer;
+using XRMultiplayer;
 
 using UnityEngine;
 using Zenject;

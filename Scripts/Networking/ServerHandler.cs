@@ -1,9 +1,9 @@
 ﻿
-using Assets.Scripts.SERVER.Processors;
-using hololensMultiplayer;
-using hololensMultiplayer.Models;
-using hololensMultiplayer.Networking;
-using hololensMultiplayer.Packets;
+using XRMultiplayer.Networking.SERVER.Processors;
+using XRMultiplayer;
+using XRMultiplayer.Models;
+using XRMultiplayer.Networking;
+using XRMultiplayer.Packets;
 using LiteNetLib;
 using LiteNetLib.Utils;
 

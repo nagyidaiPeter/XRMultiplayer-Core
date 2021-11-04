@@ -1,10 +1,10 @@
-﻿using Assets.Scripts.SERVER.Processors;
+﻿using XRMultiplayer.Networking.SERVER.Processors;
 
 using FlatBuffers;
 
-using hololensMultiplayer.Models;
-using hololensMultiplayer.Networking;
-using hololensMultiplayer.Packets;
+using XRMultiplayer.Models;
+using XRMultiplayer.Networking;
+using XRMultiplayer.Packets;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using System;
@@ -14,7 +14,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace hololensMultiplayer
+namespace XRMultiplayer
 {
     public class Server : NetManager
     {

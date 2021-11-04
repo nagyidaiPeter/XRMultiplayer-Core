@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace hololensMultiplayer
+namespace XRMultiplayer
 {
     public class DataManager
     {

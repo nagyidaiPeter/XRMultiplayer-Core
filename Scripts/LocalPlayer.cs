@@ -1,7 +1,7 @@
 
 using hololensMultiModels;
-using hololensMultiplayer;
-using hololensMultiplayer.Models;
+using XRMultiplayer;
+using XRMultiplayer.Models;
 using LiteNetLib;
 using UnityEngine;
 

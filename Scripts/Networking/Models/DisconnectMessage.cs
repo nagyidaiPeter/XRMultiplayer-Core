@@ -1,8 +1,8 @@
 ﻿using FlatBuffers;
 using hololensMulti;
-using hololensMultiplayer.Packets;
+using XRMultiplayer.Packets;
 
-namespace hololensMultiplayer.Models
+namespace XRMultiplayer.Models
 {
     public class DisconnectMessage : BaseMessageType
     {

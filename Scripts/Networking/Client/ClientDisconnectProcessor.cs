@@ -1,15 +1,15 @@
-﻿using hololensMultiplayer;
+﻿using XRMultiplayer;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
-using hololensMultiplayer.Networking;
-using hololensMultiplayer.Models;
+using XRMultiplayer.Networking;
+using XRMultiplayer.Models;
 using FlatBuffers;
 using hololensMulti;
 using LiteNetLib;
 
-namespace Assets.Scripts.SERVER.Processors
+namespace XRMultiplayer.Networking.CLIENT.Processors
 {
     public class ClientDisconnectProcessor : BaseProcessor
     {

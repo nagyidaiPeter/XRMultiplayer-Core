@@ -1,16 +1,16 @@
 ﻿using FlatBuffers;
-using hololensMultiplayer;
+using XRMultiplayer;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
-using hololensMultiplayer.Networking;
-using hololensMultiplayer.Models;
+using XRMultiplayer.Networking;
+using XRMultiplayer.Models;
 using hololensMulti;
 using hololensMultiModels;
 using LiteNetLib;
 
-namespace Assets.Scripts.SERVER.Processors
+namespace XRMultiplayer.Networking.CLIENT.Processors
 {
     public class ClientPlayTransProcessor : BaseProcessor
     {

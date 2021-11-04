@@ -1,6 +1,7 @@
-using Assets.Scripts.SERVER.Processors;
+using XRMultiplayer.Networking.SERVER.Processors;
+using XRMultiplayer.Networking.CLIENT.Processors;
 
-using hololensMultiplayer;
+using XRMultiplayer;
 using LiteNetLib;
 using Zenject;
 

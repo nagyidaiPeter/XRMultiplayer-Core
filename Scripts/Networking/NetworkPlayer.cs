@@ -1,5 +1,5 @@
 ﻿
-using hololensMultiplayer;
+using XRMultiplayer;
 
 using System.Collections;
 

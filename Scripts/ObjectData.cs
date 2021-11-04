@@ -1,7 +1,7 @@
-﻿using hololensMultiplayer.Models;
+﻿using XRMultiplayer.Models;
 using UnityEngine;
 
-namespace hololensMultiplayer
+namespace XRMultiplayer
 {
     public class ObjectData
     {

@@ -1,7 +1,7 @@
-﻿using hololensMultiplayer.Models;
+﻿using XRMultiplayer.Models;
 using LiteNetLib;
 
-namespace hololensMultiplayer.Packets
+namespace XRMultiplayer.Packets
 {
 
     public enum ChannelId : byte
