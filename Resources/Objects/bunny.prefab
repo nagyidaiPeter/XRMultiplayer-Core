@@ -317,7 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OwnerID: 255
   InterVel: 25
-  qrPos: {fileID: 0}
   RefreshRate: 30
 --- !u!65 &5887494355989098579
 BoxCollider:

@@ -179,7 +179,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 3248806805094897949, guid: 1387a8683d3d9c94ea52e454e03b31bd, type: 3}
+  constraintsManager: {fileID: 3248806805094897949, guid: 9562be58e7b7ad14ea6ac6c1fd063cd5, type: 3}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
@@ -317,7 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OwnerID: 255
   InterVel: 25
-  qrPos: {fileID: 0}
   RefreshRate: 30
 --- !u!65 &1836292427986059160
 BoxCollider:

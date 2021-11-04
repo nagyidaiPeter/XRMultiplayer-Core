@@ -19,18 +19,25 @@ namespace XRMultiplayer.Networking
         public byte OwnerID = 0;
         public float InterVel = 35;
         public ObjectData objectData = null;
-        public Transform qrPos;
         public int RefreshRate = 30;
 
-        [Inject]
         private DataManager dataManager;
-
-        [Inject]
         private ClientObjectProcessor objectProcessor;
 
-        void Start()
+        [Inject]
+        private void Init(DataManager dataManager, ClientObjectProcessor objectProcessor)
         {
-            qrPos = transform.parent.Find("QR");
+            this.dataManager = dataManager;
+            this.objectProcessor = objectProcessor;
+        }
+
+        private void Start()
+        {
+            if (dataManager == null || objectProcessor == null || objectData == null)
+            {
+                enabled = false;
+                return;
+            }
             StartCoroutine(SendData());
         }
 
@@ -128,16 +135,43 @@ namespace XRMultiplayer.Networking
                 networkObject.gameObject.SetActive(false);
             }
 
-            public override NetworkObject Create(UnityEngine.Object prefab)
+            public void InitExistingNetworkObject(GameObject netNetworkedGO)
+            {
+                NetworkObject networkObject;
+                if (netNetworkedGO.GetComponent<NetworkObject>() is NetworkObject originalComp)
+                {
+                    networkObject = originalComp;
+                }
+                else
+                {
+                    networkObject = _container.InstantiateComponent<NetworkObject>(netNetworkedGO);
+                }
+
+
+                networkObject.objectData = new ObjectData();
+                networkObject.objectData.gameObject = netNetworkedGO;
+                networkObject.objectData.objectTransform = new ObjectTransform();
+                networkObject.objectData.objectTransform.Pos = netNetworkedGO.transform.localPosition;
+                networkObject.objectData.objectTransform.Rot = netNetworkedGO.transform.localRotation;
+                networkObject.objectData.objectTransform.Scale = netNetworkedGO.transform.localScale;
+                networkObject.objectData.objectTransform.ObjectType = netNetworkedGO.name;
+                networkObject.objectData.objectTransform.ObjectID = NextID();
+            }
+
+            private int NextID()
             {
                 if (int.MaxValue == ID)
                 {
                     ID = 0;
                 }
 
-                ID++;
+                return ID++;
+            }
 
+            public override NetworkObject Create(UnityEngine.Object prefab)
+            {
                 NetworkObject instance;
+                NextID();
 
                 if (prefab is GameObject gameObject)
                 {

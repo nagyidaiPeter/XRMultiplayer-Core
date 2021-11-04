@@ -8,7 +8,7 @@ namespace XRMultiplayer
 {
     public class LocalPlayer : MonoBehaviour
     {
-        public Transform qrPos;
+        public Transform networkSpace;
 
         [Inject]
         private DataManager dataManager;
@@ -29,9 +29,9 @@ namespace XRMultiplayer
             {
                 dataManager.LocalPlayer.playerTransform.SenderID = dataManager.LocalPlayerID;
 
-                dataManager.LocalPlayer.playerTransform.Pos = qrPos.parent.InverseTransformPoint(transform.position);
+                dataManager.LocalPlayer.playerTransform.Pos = networkSpace.InverseTransformPoint(transform.position);
                 dataManager.LocalPlayer.playerTransform.Rot = transform.localRotation;
-                dataManager.LocalPlayer.playerTransform.QrRotationOffset = qrPos.parent.eulerAngles;
+                dataManager.LocalPlayer.playerTransform.QrRotationOffset = networkSpace.eulerAngles;
 
                 if (RH != null)
 

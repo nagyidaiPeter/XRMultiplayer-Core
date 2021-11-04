@@ -23,6 +23,8 @@ namespace XRMultiplayer
             Container.Bind<DataManager>().AsSingle().NonLazy();
             Container.Bind<EventBasedNetListener>().AsTransient();
 
+            Container.Bind<NetworkObject>().AsTransient();
+
             //Factories
             Container.BindFactory<string, NetworkPlayer, NetworkPlayer.Factory>().FromFactory<PrefabResourceFactory<NetworkPlayer>>();
             Container.BindFactory<UnityEngine.Object, NetworkObject, NetworkObject.ObjectFactory>().FromFactory<NetworkObject.ObjectFactory>();

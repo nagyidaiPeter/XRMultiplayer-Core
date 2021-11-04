@@ -6,7 +6,7 @@ namespace XRMultiplayer
     {
         public Dictionary<int, PlayerData> Players = new Dictionary<int, PlayerData>();
         public Dictionary<int, ObjectData> Objects = new Dictionary<int, ObjectData>();
-        public byte LocalPlayerID;
+        public byte LocalPlayerID = 1;
 
         public PlayerData LocalPlayer
         {
