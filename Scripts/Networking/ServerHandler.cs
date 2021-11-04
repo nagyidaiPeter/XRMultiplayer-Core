@@ -15,141 +15,144 @@ using UnityEngine;
 
 using Zenject;
 
-public class ServerHandler : MonoBehaviour
+namespace XRMultiplayer.Networking
 {
-    private Server server;
-
-    public bool IsServerRunning = false;
-
-    public NetworkSettingsObject networkSettings;
-
-    private DataManager dataManager;
-
-    private Dictionary<MessageTypes, IProcessor> MessageProcessors = new Dictionary<MessageTypes, IProcessor>();
-
-    [Inject]
-    private NetworkObject.ObjectFactory objectFactory;
-
-    [Inject]
-    public void Init(Server server, DataManager dataManager,
-            ServerPlayTransProcessor playerTransformProc, ServerWelcomeProcessor serverWelcomeProcessor,
-            ServerDisconnectProcessor disconnectProcessor, ServerObjectProcessor objectProcessor)
+    public class ServerHandler : MonoBehaviour
     {
-        this.server = server;
-        this.dataManager = dataManager;
+        private Server server;
 
-        //todo: This will get out of hand if we need more processors, rework this to collect all processors from assembly with reflection or similar solution
-        MessageProcessors.Add(MessageTypes.PlayerTransform, playerTransformProc);
-        MessageProcessors.Add(MessageTypes.Welcome, serverWelcomeProcessor);
-        MessageProcessors.Add(MessageTypes.Disconnect, disconnectProcessor);
-        MessageProcessors.Add(MessageTypes.ObjectTransform, objectProcessor);
+        public bool IsServerRunning = false;
 
-        this.server.netPacketProcessor.SubscribeReusable<WrapperPacket, NetPeer>(OnPacketReceived);
-    }
+        public NetworkSettingsObject networkSettings;
 
-    private void OnPacketReceived(WrapperPacket wrapperPacket, NetPeer peer)
-    {
-        MessageProcessors[wrapperPacket.messageType].AddInMessage(wrapperPacket.packetData, peer);
-    }
+        private DataManager dataManager;
 
-    public void StartServer()
-    {
-        if (!server.IsRunning)
+        private Dictionary<MessageTypes, IProcessor> MessageProcessors = new Dictionary<MessageTypes, IProcessor>();
+
+        [Inject]
+        private NetworkObject.ObjectFactory objectFactory;
+
+        [Inject]
+        public void Init(Server server, DataManager dataManager,
+                ServerPlayTransProcessor playerTransformProc, ServerWelcomeProcessor serverWelcomeProcessor,
+                ServerDisconnectProcessor disconnectProcessor, ServerObjectProcessor objectProcessor)
         {
-            Debug.Log("Starting server..");
-            server.listener.PeerDisconnectedEvent += PeerDisconnected;
-            server.listener.ConnectionRequestEvent += OnConnectionRequest;
+            this.server = server;
+            this.dataManager = dataManager;
 
-            server.Start(networkSettings.ServerPort);
-            IsServerRunning = true;
-            dataManager.IsServer = true;
+            //todo: This will get out of hand if we need more processors, rework this to collect all processors from assembly with reflection or similar solution
+            MessageProcessors.Add(MessageTypes.PlayerTransform, playerTransformProc);
+            MessageProcessors.Add(MessageTypes.Welcome, serverWelcomeProcessor);
+            MessageProcessors.Add(MessageTypes.Disconnect, disconnectProcessor);
+            MessageProcessors.Add(MessageTypes.ObjectTransform, objectProcessor);
 
-            foreach (var obj in Resources.LoadAll("Objects"))
+            this.server.netPacketProcessor.SubscribeReusable<WrapperPacket, NetPeer>(OnPacketReceived);
+        }
+
+        private void OnPacketReceived(WrapperPacket wrapperPacket, NetPeer peer)
+        {
+            MessageProcessors[wrapperPacket.messageType].AddInMessage(wrapperPacket.packetData, peer);
+        }
+
+        public void StartServer()
+        {
+            if (!server.IsRunning)
             {
-                GetComponent<ObjectSpawner>().SpawnObject(obj.name);
+                Debug.Log("Starting server..");
+                server.listener.PeerDisconnectedEvent += PeerDisconnected;
+                server.listener.ConnectionRequestEvent += OnConnectionRequest;
+
+                server.Start(networkSettings.ServerPort);
+                IsServerRunning = true;
+                dataManager.IsServer = true;
+
+                foreach (var obj in Resources.LoadAll("Objects"))
+                {
+                    GetComponent<ObjectSpawner>().SpawnObject(obj.name);
+                }
+
+                //GetComponent<ObjectSpawner>().SpawnObject("HumanHeart");
+
+                StartCoroutine(ServerUpdate());
+                StartCoroutine(BroadcastServer());
             }
-
-            //GetComponent<ObjectSpawner>().SpawnObject("HumanHeart");
-
-            StartCoroutine(ServerUpdate());
-            StartCoroutine(BroadcastServer());
         }
-    }
 
-    private void OnDestroy()
-    {
-        StopServer();
-    }
-
-    public void StopServer()
-    {
-        Debug.Log("Stopping server..");
-        IsServerRunning = false;
-        dataManager.IsServer = false;
-        StopAllCoroutines();
-        server.Stop();
-
-        server.listener.PeerDisconnectedEvent -= PeerDisconnected;
-        server.listener.ConnectionRequestEvent -= OnConnectionRequest;
-
-        for (int i = 0; i < dataManager.Objects.Count; i++)
+        private void OnDestroy()
         {
-            var first = dataManager.Objects.ElementAt(i);
-            objectFactory.AddToPool(first.Value.gameObject.GetComponent<NetworkObject>());
+            StopServer();
         }
-        dataManager.Objects.Clear();
-    }
 
-    private void OnConnectionRequest(ConnectionRequest request)
-    {
-        if (server.ConnectedPeersCount < networkSettings.MaxConnections)
+        public void StopServer()
         {
-            Debug.Log("New peer wants to connect!");
-            request.AcceptIfKey(networkSettings.AppKey);
-        }
-        else
-        {
-            request.Reject();
-        }
-    }
+            Debug.Log("Stopping server..");
+            IsServerRunning = false;
+            dataManager.IsServer = false;
+            StopAllCoroutines();
+            server.Stop();
 
-    private void PeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-    {
-        DisconnectMessage disconnectMessage = new DisconnectMessage();
-        disconnectMessage.DisconnectedUserID = dataManager.Players.FirstOrDefault(x => x.Value.connection == peer).Value.ID;
-        MessageProcessors[MessageTypes.Disconnect].AddOutMessage(disconnectMessage);
-    }
+            server.listener.PeerDisconnectedEvent -= PeerDisconnected;
+            server.listener.ConnectionRequestEvent -= OnConnectionRequest;
 
-    private IEnumerator ServerUpdate()
-    {
-        while (IsServerRunning)
-        {
-            server.PollEvents();
-            foreach (var processor in MessageProcessors)
+            for (int i = 0; i < dataManager.Objects.Count; i++)
             {
-                try
-                {
-                    processor.Value.ProcessIncoming();
-                    processor.Value.ProcessOutgoing();
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError(ex);
-                }
+                var first = dataManager.Objects.ElementAt(i);
+                objectFactory.AddToPool(first.Value.gameObject.GetComponent<NetworkObject>());
             }
-
-            yield return new WaitForSeconds(networkSettings.NetworkRefreshRate);
+            dataManager.Objects.Clear();
         }
-    }
 
-    private IEnumerator BroadcastServer()
-    {
-        while (server.IsRunning)
+        private void OnConnectionRequest(ConnectionRequest request)
         {
-            NetDataWriter writer = new NetDataWriter();
-            writer.Put(networkSettings.AdvertisementID);
-            server.SendBroadcast(writer, networkSettings.ClientPort);
-            yield return new WaitForSeconds(0.5f);
+            if (server.ConnectedPeersCount < networkSettings.MaxConnections)
+            {
+                Debug.Log("New peer wants to connect!");
+                request.AcceptIfKey(networkSettings.AppKey);
+            }
+            else
+            {
+                request.Reject();
+            }
         }
-    }
+
+        private void PeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            DisconnectMessage disconnectMessage = new DisconnectMessage();
+            disconnectMessage.DisconnectedUserID = dataManager.Players.FirstOrDefault(x => x.Value.connection == peer).Value.ID;
+            MessageProcessors[MessageTypes.Disconnect].AddOutMessage(disconnectMessage);
+        }
+
+        private IEnumerator ServerUpdate()
+        {
+            while (IsServerRunning)
+            {
+                server.PollEvents();
+                foreach (var processor in MessageProcessors)
+                {
+                    try
+                    {
+                        processor.Value.ProcessIncoming();
+                        processor.Value.ProcessOutgoing();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.LogError(ex);
+                    }
+                }
+
+                yield return new WaitForSeconds(networkSettings.NetworkRefreshRate);
+            }
+        }
+
+        private IEnumerator BroadcastServer()
+        {
+            while (server.IsRunning)
+            {
+                NetDataWriter writer = new NetDataWriter();
+                writer.Put(networkSettings.AdvertisementID);
+                server.SendBroadcast(writer, networkSettings.ClientPort);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+    } 
 }

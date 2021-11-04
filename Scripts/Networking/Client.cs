@@ -11,7 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace XRMultiplayer.Networking
 {
     public class Client : NetManager
     {

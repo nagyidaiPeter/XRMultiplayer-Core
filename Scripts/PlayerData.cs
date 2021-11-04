@@ -1,7 +1,9 @@
 ﻿
-using hololensMultiModels;
+
 using LiteNetLib;
 using UnityEngine;
+
+using XRMultiplayer.Models;
 
 namespace XRMultiplayer
 {

@@ -8,7 +8,7 @@ using LiteNetLib;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace hololensMultiModels
+namespace XRMultiplayer.Models
 {
     public class PlayerTransform : BaseMessageType
     {

@@ -9,7 +9,7 @@ using Zenject;
 using XRMultiplayer.Networking;
 using XRMultiplayer.Models;
 using hololensMulti;
-using hololensMultiModels;
+
 using LiteNetLib;
 using XRMultiplayer.Packets;
 
