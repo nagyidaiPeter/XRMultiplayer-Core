@@ -6,7 +6,6 @@ using UnityEngine;
 using Zenject;
 using XRMultiplayer.Networking;
 using XRMultiplayer.Models;
-using hololensMulti;
 using LiteNetLib;
 
 namespace XRMultiplayer.Networking.CLIENT.Processors

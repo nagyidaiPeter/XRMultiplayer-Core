@@ -1,5 +1,4 @@
 ﻿using FlatBuffers;
-using hololensMulti;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.FlatBuffers
+using XRMultiplayer;
+
+namespace XRMultiplayer.FlatBuffers
 {
     public static class FlatBuffersExtensions
     {

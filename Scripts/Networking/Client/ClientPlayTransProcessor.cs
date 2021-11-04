@@ -1,12 +1,10 @@
-﻿using FlatBuffers;
-using XRMultiplayer;
+﻿using XRMultiplayer;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
 using XRMultiplayer.Networking;
 using XRMultiplayer.Models;
-using hololensMulti;
 
 using LiteNetLib;
 

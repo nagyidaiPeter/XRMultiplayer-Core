@@ -7,7 +7,7 @@ namespace UnityFbs.EditorScripts.Settings {
     // More about: https://docs.unity3d.com/ScriptReference/SettingsProvider.html
     // and here https://forum.unity.com/threads/using-settingsprovider-values-in-project-settings-window-are-saved-to-asset.693910/
     class UnityFbsSettings : ScriptableObject {
-        public const string SettingsPath = "Assets/FlatBuffers/Settings/UnityFbsSettings.asset";
+        public const string SettingsPath = "Assets/XRMultiplayer-Core/FlatBuffers/Settings/UnityFbsSettings.asset";
 
         [SerializeField]
         private string flatcPath;

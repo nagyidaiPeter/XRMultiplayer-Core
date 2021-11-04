@@ -6,7 +6,6 @@ using Zenject;
 using XRMultiplayer.Networking;
 using XRMultiplayer.Models;
 using FlatBuffers;
-using hololensMulti;
 using LiteNetLib;
 using UnityEngine;
 

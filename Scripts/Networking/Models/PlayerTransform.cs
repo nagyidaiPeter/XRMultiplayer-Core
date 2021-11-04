@@ -1,12 +1,11 @@
 ﻿
-using Assets.FlatBuffers;
 using FlatBuffers;
-using hololensMulti;
 using XRMultiplayer.Models;
 using XRMultiplayer.Packets;
 using LiteNetLib;
 using System.Collections.Generic;
 using UnityEngine;
+using XRMultiplayer.FlatBuffers;
 
 namespace XRMultiplayer.Models
 {

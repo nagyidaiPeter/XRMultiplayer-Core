@@ -1,6 +1,6 @@
 ﻿include "Definitions.fbs";
 
-namespace hololensMulti;
+namespace XRMultiplayer;
 
 table ObjectFB {
   ObjectID:int;
