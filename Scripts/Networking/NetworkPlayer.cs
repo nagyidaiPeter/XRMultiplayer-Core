@@ -58,7 +58,7 @@ namespace XRMultiplayer.Networking
         private void Curl(Transform parent, float curlage)
         {
             if (parent.GetComponent<FingerData>() is FingerData fingerData)
-                parent.localEulerAngles = new Vector3(curlage * byte.MaxValue, 0, 0);
+                parent.localEulerAngles = new Vector3(90 * curlage, 0, 0);
 
             foreach (Transform child in parent)
             {
@@ -78,11 +78,11 @@ namespace XRMultiplayer.Networking
                 RH.localRotation = Quaternion.Lerp(RH.localRotation, playerData.playerTransform.RHRot, HandInterVel * Time.deltaTime);
                 RH.gameObject.SetActive(playerData.playerTransform.RHActive);
 
-                Curl(RPinky, -playerData.playerTransform.RHFingers.Pinky);
-                Curl(RRing, -playerData.playerTransform.RHFingers.Ring);
-                Curl(RMiddle, -playerData.playerTransform.RHFingers.Middle);
-                Curl(RIndex, -playerData.playerTransform.RHFingers.Index);
-                Curl(RThumb, playerData.playerTransform.RHFingers.Thumb);
+                Curl(RPinky, -(byte.MaxValue / playerData.playerTransform.RHFingers.Pinky));
+                Curl(RRing, -(byte.MaxValue / playerData.playerTransform.RHFingers.Ring));
+                Curl(RMiddle, -(byte.MaxValue / playerData.playerTransform.RHFingers.Middle));
+                Curl(RIndex, -(byte.MaxValue / playerData.playerTransform.RHFingers.Index));
+                Curl(RThumb, (byte.MaxValue / playerData.playerTransform.RHFingers.Thumb));
             }
 
             if (LH != null)
@@ -91,11 +91,11 @@ namespace XRMultiplayer.Networking
                 LH.localRotation = Quaternion.Lerp(LH.localRotation, playerData.playerTransform.LHRot, HandInterVel * Time.deltaTime);
                 LH.gameObject.SetActive(playerData.playerTransform.LHActive);
 
-                Curl(LPinky, playerData.playerTransform.LHFingers.Pinky);
-                Curl(LRing, playerData.playerTransform.LHFingers.Ring);
-                Curl(LMiddle, playerData.playerTransform.LHFingers.Middle);
-                Curl(LIndex, playerData.playerTransform.LHFingers.Index);
-                Curl(LThumb, playerData.playerTransform.LHFingers.Thumb);
+                Curl(LPinky, (byte.MaxValue / playerData.playerTransform.LHFingers.Pinky));
+                Curl(LRing, (byte.MaxValue / playerData.playerTransform.LHFingers.Ring));
+                Curl(LMiddle, (byte.MaxValue / playerData.playerTransform.LHFingers.Middle));
+                Curl(LIndex, (byte.MaxValue / playerData.playerTransform.LHFingers.Index));
+                Curl(LThumb, (byte.MaxValue / playerData.playerTransform.LHFingers.Thumb));
             }
         }
 
@@ -104,5 +104,5 @@ namespace XRMultiplayer.Networking
         public class Factory : PlaceholderFactory<string, NetworkPlayer>
         {
         }
-    } 
+    }
 }
