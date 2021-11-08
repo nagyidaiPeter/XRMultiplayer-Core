@@ -6,7 +6,7 @@ using XRMultiplayer.FlatBuffers;
 
 namespace XRMultiplayer.Models
 {
-    public class ObjectTransform : BaseMessageType
+    public class NetworkObjectData : BaseMessageType
     {
         public int ObjectID { get; set; }
         public string ObjectType { get; set; } = "PrefabName";
@@ -17,9 +17,9 @@ namespace XRMultiplayer.Models
 
         public new MessageTypes MsgType = MessageTypes.ObjectTransform;
 
-        public ObjectTransform() { }
+        public NetworkObjectData() { }
 
-        public ObjectTransform(byte[] data)
+        public NetworkObjectData(byte[] data)
         {
             Deserialize(data);
         }

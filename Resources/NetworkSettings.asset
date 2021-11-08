@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerPort: 12345
   ClientPort: 12346
+  NetworkRefreshRate: 0.033333
+  MaxConnections: 32
+  ObjectInterpolation: 30
+  PlayerInterpolation: 30
+  AdvertisementID: xrM
+  AppKey: xrMultiplayer

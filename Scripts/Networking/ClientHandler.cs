@@ -54,10 +54,35 @@ namespace XRMultiplayer.Networking
 
         public void Connect(string address)
         {
+            if (!dataManager.IsServer)
+            {
+                CleanNetworkObjects();
+            }
+
             var split = address.Split(':');
             client.Connect(split[0], int.Parse(split[1]), networkSettings.AppKey);
             Debug.Log($"Connecting to {address}");
-            StartCoroutine(ClientUpdate());
+        }
+
+        public void Connect(System.Net.IPEndPoint serverEndpoint)
+        {
+            if (!dataManager.IsServer)
+            {
+                CleanNetworkObjects();
+            }
+
+            client.Connect(serverEndpoint, networkSettings.AppKey);
+
+            Debug.Log($"Connecting to {serverEndpoint}");
+        }
+
+        private void CleanNetworkObjects()
+        {
+            foreach (var netObj in dataManager.Objects)
+            {
+                Destroy(netObj.Value.gameObject);
+            }
+            dataManager.Objects.Clear();
         }
 
         public void Disconnect()
@@ -85,9 +110,8 @@ namespace XRMultiplayer.Networking
 
         private void Client_ServerBroadcastResponseEvent(System.Net.IPEndPoint serverEndpoint)
         {
-            client.Connect(serverEndpoint, networkSettings.AppKey);
+            Connect(serverEndpoint);
             client.ServerBroadcastResponseEvent -= Client_ServerBroadcastResponseEvent;
-            Debug.Log($"Connecting to {serverEndpoint}");
         }
 
         private void OnDestroy()

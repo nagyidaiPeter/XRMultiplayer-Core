@@ -17,9 +17,8 @@ namespace XRMultiplayer.Networking
     public class NetworkObject : MonoBehaviour
     {
         public byte OwnerID = 0;
-        public float InterVel = 35;
+        public float InterVel = 20;
         public ObjectData objectData = null;
-        public int RefreshRate = 30;
 
         private DataManager dataManager;
         private ClientObjectProcessor objectProcessor;
@@ -33,12 +32,7 @@ namespace XRMultiplayer.Networking
 
         private void Start()
         {
-            if (dataManager == null || objectProcessor == null || objectData == null)
-            {
-                enabled = false;
-                return;
-            }
-            StartCoroutine(SendData());
+
         }
 
         void Update()
@@ -54,55 +48,30 @@ namespace XRMultiplayer.Networking
         public void ClaimObject()
         {
             OwnerID = dataManager.LocalPlayerID;
-            objectData.objectTransform.OwnerID = OwnerID;
-            objectData.objectTransform.SenderID = OwnerID;
+            objectData.networkObjectData.OwnerID = OwnerID;
+            objectData.networkObjectData.SenderID = OwnerID;
 
-            objectData.objectTransform.Pos = transform.localPosition;
-            objectData.objectTransform.Rot = transform.localRotation;
-            objectData.objectTransform.Scale = transform.localScale;
+            objectData.networkObjectData.Pos = transform.localPosition;
+            objectData.networkObjectData.Rot = transform.localRotation;
+            objectData.networkObjectData.Scale = transform.localScale;
 
-            objectProcessor.AddOutMessage(objectData.objectTransform);
-        }
-
-        private IEnumerator SendData()
-        {
-            while (true)
-            {
-                if (OwnerID != dataManager.LocalPlayerID)
-                {
-                    transform.localPosition = objectData.objectTransform.Pos;
-                    transform.localRotation = objectData.objectTransform.Rot;
-                    transform.localScale = objectData.objectTransform.Scale;
-                }
-                else
-                {
-                    objectData.objectTransform.OwnerID = OwnerID;
-                    objectData.objectTransform.SenderID = OwnerID;
-
-                    objectData.objectTransform.Pos = transform.localPosition;
-                    objectData.objectTransform.Rot = transform.localRotation;
-                    objectData.objectTransform.Scale = transform.localScale;
-
-                    objectProcessor.AddOutMessage(objectData.objectTransform);
-                }
-                yield return new WaitForSeconds(1 / RefreshRate);
-            }
+            objectProcessor.AddOutMessage(objectData.networkObjectData);
         }
 
         public void DisclaimObject()
         {
             OwnerID = 0;
 
-            objectData.objectTransform.ObjectID = objectData.objectTransform.ObjectID;
-            objectData.objectTransform.OwnerID = OwnerID;
-            objectData.objectTransform.SenderID = OwnerID;
+            objectData.networkObjectData.ObjectID = objectData.networkObjectData.ObjectID;
+            objectData.networkObjectData.OwnerID = OwnerID;
+            objectData.networkObjectData.SenderID = OwnerID;
 
-            objectData.objectTransform.ObjectType = objectData.objectTransform.ObjectType;
-            objectData.objectTransform.Pos = transform.localPosition;
-            objectData.objectTransform.Rot = transform.localRotation;
-            objectData.objectTransform.Scale = transform.localScale;
+            objectData.networkObjectData.ObjectType = objectData.networkObjectData.ObjectType;
+            objectData.networkObjectData.Pos = transform.localPosition;
+            objectData.networkObjectData.Rot = transform.localRotation;
+            objectData.networkObjectData.Scale = transform.localScale;
 
-            objectProcessor.AddOutMessage(objectData.objectTransform);
+            objectProcessor.AddOutMessage(objectData.networkObjectData);
         }
 
         public class ObjectFactory : PlaceholderFactory<UnityEngine.Object, NetworkObject>
@@ -135,7 +104,7 @@ namespace XRMultiplayer.Networking
                 networkObject.gameObject.SetActive(false);
             }
 
-            public void InitExistingNetworkObject(GameObject netNetworkedGO)
+            public NetworkObject InitExistingNetworkObject(GameObject netNetworkedGO)
             {
                 NetworkObject networkObject;
                 if (netNetworkedGO.GetComponent<NetworkObject>() is NetworkObject originalComp)
@@ -147,15 +116,16 @@ namespace XRMultiplayer.Networking
                     networkObject = _container.InstantiateComponent<NetworkObject>(netNetworkedGO);
                 }
 
-
                 networkObject.objectData = new ObjectData();
                 networkObject.objectData.gameObject = netNetworkedGO;
-                networkObject.objectData.objectTransform = new ObjectTransform();
-                networkObject.objectData.objectTransform.Pos = netNetworkedGO.transform.localPosition;
-                networkObject.objectData.objectTransform.Rot = netNetworkedGO.transform.localRotation;
-                networkObject.objectData.objectTransform.Scale = netNetworkedGO.transform.localScale;
-                networkObject.objectData.objectTransform.ObjectType = netNetworkedGO.name;
-                networkObject.objectData.objectTransform.ObjectID = NextID();
+                networkObject.objectData.networkObjectData = new NetworkObjectData();
+                networkObject.objectData.networkObjectData.Pos = netNetworkedGO.transform.localPosition;
+                networkObject.objectData.networkObjectData.Rot = netNetworkedGO.transform.localRotation;
+                networkObject.objectData.networkObjectData.Scale = netNetworkedGO.transform.localScale;
+                networkObject.objectData.networkObjectData.ObjectType = netNetworkedGO.name;
+                networkObject.objectData.networkObjectData.ObjectID = NextID();
+
+                return networkObject;
             }
 
             private int NextID()
@@ -191,9 +161,9 @@ namespace XRMultiplayer.Networking
                     }
                     instance.objectData = new ObjectData();
                     instance.objectData.gameObject = instance.gameObject;
-                    instance.objectData.objectTransform = new ObjectTransform();
-                    instance.objectData.objectTransform.ObjectType = prefab.name;
-                    instance.objectData.objectTransform.ObjectID = ID;
+                    instance.objectData.networkObjectData = new NetworkObjectData();
+                    instance.objectData.networkObjectData.ObjectType = prefab.name;
+                    instance.objectData.networkObjectData.ObjectID = ID;
                     return instance;
                 }
 

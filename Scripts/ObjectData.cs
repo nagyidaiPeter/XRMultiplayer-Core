@@ -5,7 +5,7 @@ namespace XRMultiplayer
 {
     public class ObjectData
     {
-        public ObjectTransform objectTransform;
+        public NetworkObjectData networkObjectData;
 
         public Vector3 LastSentPos = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
 
@@ -13,7 +13,7 @@ namespace XRMultiplayer
 
         public bool IsPositionChanged()
         {
-            return LastSentPos != objectTransform.Pos;
+            return LastSentPos != networkObjectData.Pos;
         }
 
         public ObjectData()

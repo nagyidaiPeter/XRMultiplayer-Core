@@ -12,9 +12,9 @@ namespace XRMultiplayer.Networking.CLIENT.Processors
 {
     public class ClientObjectProcessor : BaseProcessor
     {
-        public new Queue<ObjectTransform> IncomingMessages { get; set; } = new Queue<ObjectTransform>();
+        public new Queue<NetworkObjectData> IncomingMessages { get; set; } = new Queue<NetworkObjectData>();
 
-        public new Queue<ObjectTransform> OutgoingMessages { get; set; } = new Queue<ObjectTransform>();
+        public new Queue<NetworkObjectData> OutgoingMessages { get; set; } = new Queue<NetworkObjectData>();
 
         [Inject]
         private Client client;
@@ -24,14 +24,14 @@ namespace XRMultiplayer.Networking.CLIENT.Processors
 
         public override bool AddInMessage(byte[] message, NetPeer peer)
         {
-            ObjectTransform objectTransform = new ObjectTransform(message);
+            NetworkObjectData objectTransform = new NetworkObjectData(message);
             IncomingMessages.Enqueue(objectTransform);
             return true;
         }
 
         public override bool AddOutMessage(BaseMessageType objectToSend)
         {
-            if (objectToSend is ObjectTransform ObjectTransform)
+            if (objectToSend is NetworkObjectData ObjectTransform)
             {
                 OutgoingMessages.Enqueue(ObjectTransform);
                 return true;
@@ -52,7 +52,7 @@ namespace XRMultiplayer.Networking.CLIENT.Processors
                 if (dataManager.Objects.ContainsKey(objectTransformMsg.ObjectID))
                 {
                     var objectTransform = dataManager.Objects[objectTransformMsg.ObjectID];
-                    objectTransform.objectTransform = objectTransformMsg;
+                    objectTransform.networkObjectData = objectTransformMsg;
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace XRMultiplayer.Networking.CLIENT.Processors
                     var newPlayerGO = networkObject.gameObject;
                     newPlayerGO.SetActive(true);
                     newObject.gameObject = newPlayerGO;
-                    newObject.objectTransform = objectTransformMsg;
+                    newObject.networkObjectData = objectTransformMsg;
                     networkObject.objectData = newObject;
                     dataManager.Objects.Add(objectTransformMsg.ObjectID, newObject);
                 }

@@ -14,9 +14,9 @@ namespace XRMultiplayer.Networking.SERVER.Processors
 {
     public class ServerObjectProcessor : BaseProcessor
     {
-        public new Queue<ObjectTransform> IncomingMessages { get; set; } = new Queue<ObjectTransform>();
+        public new Queue<NetworkObjectData> IncomingMessages { get; set; } = new Queue<NetworkObjectData>();
 
-        public new Queue<ObjectTransform> OutgoingMessages { get; set; } = new Queue<ObjectTransform>();
+        public new Queue<NetworkObjectData> OutgoingMessages { get; set; } = new Queue<NetworkObjectData>();
 
         
         private Server server;
@@ -34,8 +34,8 @@ namespace XRMultiplayer.Networking.SERVER.Processors
             for (int j = 0; j < changedObjs.Count(); j++)
             {
                 var objectToSync = changedObjs.ElementAt(j);
-                objectToSync.LastSentPos = objectToSync.objectTransform.Pos;
-                var wrapperPacket = objectToSync.objectTransform.Serialize();
+                objectToSync.LastSentPos = objectToSync.networkObjectData.Pos;
+                var wrapperPacket = objectToSync.networkObjectData.Serialize();
                 wrapperPacket.deliveryMethod = DeliveryMethod.ReliableUnordered;
                 server.SendTo(wrapperPacket, newPeer);
             }
@@ -48,7 +48,7 @@ namespace XRMultiplayer.Networking.SERVER.Processors
 
         public override bool AddInMessage(byte[] message, NetPeer player)
         {
-            ObjectTransform objectTransform = new ObjectTransform(message);           
+            NetworkObjectData objectTransform = new NetworkObjectData(message);           
             IncomingMessages.Enqueue(objectTransform);
             return true;
         }
@@ -61,7 +61,8 @@ namespace XRMultiplayer.Networking.SERVER.Processors
                 if (dataManager.Objects.ContainsKey(transformMsg.ObjectID))
                 {
                     var objectTransform = dataManager.Objects[transformMsg.ObjectID];
-                    objectTransform.objectTransform = transformMsg;
+                    objectTransform.networkObjectData = transformMsg;
+                    objectTransform.gameObject.GetComponent<NetworkObject>().OwnerID = transformMsg.OwnerID;
                 }
             }
         }
@@ -77,8 +78,8 @@ namespace XRMultiplayer.Networking.SERVER.Processors
             for (int j = 0; j < changedObjs.Count(); j++)
             {
                 var objectToSync = changedObjs.ElementAt(j);
-                objectToSync.LastSentPos = objectToSync.objectTransform.Pos;
-                server.SendToAll(objectToSync.objectTransform.Serialize());
+                objectToSync.LastSentPos = objectToSync.networkObjectData.Pos;
+                server.SendToAll(objectToSync.networkObjectData.Serialize());
             }
         }
 

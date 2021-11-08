@@ -3646,8 +3646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f728fa2fb8a8045aef08790e188f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InterVel: 25
-  HandInterVel: 25
+  InterVel: 20
+  HandInterVel: 20
   RH: {fileID: 9161195473347049786}
   LH: {fileID: 4726570007634304533}
   RPinky: {fileID: 7064452868952096176}

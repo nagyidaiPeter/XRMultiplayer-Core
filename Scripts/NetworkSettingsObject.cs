@@ -13,6 +13,10 @@ public class NetworkSettingsObject : ScriptableObject
 
     public int MaxConnections = 32;
 
+    public float ObjectInterpolation = 20;
+
+    public float PlayerInterpolation = 20;
+
     public string AdvertisementID = "xrM";
 
     public string AppKey = "xrMultiplayer";
