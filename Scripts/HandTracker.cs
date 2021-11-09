@@ -43,7 +43,7 @@ public class HandTracker : MonoBehaviour
             var pointer = HandJointUtils.FindHand(handedness).InputSource.Pointers.FirstOrDefault(x => x.IsActive && x is ShellHandRayPointer);
             if (pointer is ShellHandRayPointer handPointer && handPointer.Result != null)
             {
-                pointerPos = handPointer.Result.Details.Point;
+                pointerPos = transform.InverseTransformPoint(handPointer.Result.Details.Point);
             }
             else
             {

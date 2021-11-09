@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AbstractHandMat
-  m_Shader: {fileID: 15301, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: aca12b5bed90b92448a88757df739294, type: 3}
   m_ShaderKeywords: USE_ALBEDO_TEXTURE _AUTO_PULSE__ON _METALLICGLOSSMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

@@ -39,6 +39,7 @@ namespace XRMultiplayer
                     dataManager.LocalPlayer.playerTransform.RHFingers = RH.GetComponent<HandTracker>().handState;
                     dataManager.LocalPlayer.playerTransform.RHPos = transform.InverseTransformPoint(RH.position);
                     dataManager.LocalPlayer.playerTransform.RHRot = RH.localRotation;
+                    dataManager.LocalPlayer.playerTransform.RHPointerPos = RH.GetComponent<HandTracker>().pointerPos;
                     dataManager.LocalPlayer.playerTransform.RHActive = RH.GetComponent<HandTracker>().IsTracked;
                 }
 
@@ -47,6 +48,7 @@ namespace XRMultiplayer
                     dataManager.LocalPlayer.playerTransform.LHFingers = LH.GetComponent<HandTracker>().handState;
                     dataManager.LocalPlayer.playerTransform.LHPos = transform.InverseTransformPoint(LH.position);
                     dataManager.LocalPlayer.playerTransform.LHRot = LH.localRotation;
+                    dataManager.LocalPlayer.playerTransform.LHPointerPos = LH.GetComponent<HandTracker>().pointerPos;
                     dataManager.LocalPlayer.playerTransform.LHActive = LH.GetComponent<HandTracker>().IsTracked;
                 }
 

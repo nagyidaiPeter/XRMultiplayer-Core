@@ -24,6 +24,9 @@ namespace XRMultiplayer.Networking
         public delegate void ConnectedToServer();
         public event ConnectedToServer ConnectedToServerEvent;
 
+        public delegate void DisconnectedFromServer();
+        public event DisconnectedFromServer DisconnectedFromServerEvent;
+
         public bool IsConnected { get; private set; }
 
         private NetworkSettingsObject networkSettings;
@@ -65,6 +68,7 @@ namespace XRMultiplayer.Networking
             Debug.Log("[CLIENT] We disconnected because " + disconnectInfo.Reason);
             IsConnected = false;
             listener.NetworkReceiveUnconnectedEvent += OnNetworkReceiveUnconnected;
+            DisconnectedFromServerEvent?.Invoke();
         }
 
         private void PeerConnected(NetPeer peer)
@@ -87,6 +91,5 @@ namespace XRMultiplayer.Networking
                 ServerBroadcastResponseEvent?.Invoke(remoteEndPoint);
             }
         }
-
     }
 }

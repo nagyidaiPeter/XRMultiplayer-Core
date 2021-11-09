@@ -88,7 +88,6 @@ namespace XRMultiplayer.Networking
         public void Disconnect()
         {
             client.DisconnectAll();
-            StopAllCoroutines();
         }
 
         private IEnumerator ClientUpdate()
@@ -112,12 +111,19 @@ namespace XRMultiplayer.Networking
         {
             Connect(serverEndpoint);
             client.ServerBroadcastResponseEvent -= Client_ServerBroadcastResponseEvent;
+            client.DisconnectedFromServerEvent += Client_DisconnectedFromServerEvent;
+        }
+
+        private void Client_DisconnectedFromServerEvent()
+        {
+            client.ServerBroadcastResponseEvent += Client_ServerBroadcastResponseEvent;
         }
 
         private void OnDestroy()
         {
             Disconnect();
             client.Stop();
+            StopAllCoroutines();
         }
     }
 
