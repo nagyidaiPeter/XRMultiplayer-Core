@@ -76,7 +76,7 @@ namespace XRMultiplayer.Networking
 
         public void Send(WrapperPacket wrapperPacket)
         {
-           FirstPeer.Send(netPacketProcessor.Write(wrapperPacket), (byte)wrapperPacket.UdpChannel, wrapperPacket.deliveryMethod);
+           FirstPeer?.Send(netPacketProcessor.Write(wrapperPacket), (byte)wrapperPacket.UdpChannel, wrapperPacket.deliveryMethod);
         }
 
         public void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
