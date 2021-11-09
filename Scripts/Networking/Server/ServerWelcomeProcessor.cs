@@ -26,6 +26,7 @@ namespace XRMultiplayer.Networking.SERVER.Processors
         public override bool AddInMessage(byte[] message, NetPeer player)
         {
             Welcome welcome = new Welcome(message);
+            welcome.sender = player;
             IncomingMessages.Enqueue(welcome);
             return true;
         }
@@ -56,6 +57,7 @@ namespace XRMultiplayer.Networking.SERVER.Processors
                     newPlayerGO.transform.parent = GameObject.Find("NetworkSpace").transform;
                     newPlayer.playerObject = newPlayerGO;
                     newPlayer.Name = welcomeMsg.Name;
+                    newPlayer.connection = welcomeMsg.sender;
                     networkPlayer.playerData = newPlayer;
                     dataManager.Players.Add(newPlayer.ID, newPlayer);
                 }

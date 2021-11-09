@@ -68,7 +68,6 @@ namespace XRMultiplayer.Networking
             netPacketProcessor.ReadAllPackets(reader, peer);
         }
 
-
         public void SendToAll(WrapperPacket packet)
         {
             SendToAll(netPacketProcessor.Write(packet), (byte)packet.UdpChannel, packet.deliveryMethod);
@@ -78,6 +77,5 @@ namespace XRMultiplayer.Networking
         {
             peer.Send(netPacketProcessor.Write(packet), (byte)packet.UdpChannel, packet.deliveryMethod);
         }
-
     }
 }

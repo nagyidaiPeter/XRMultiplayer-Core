@@ -64,6 +64,7 @@ namespace XRMultiplayer.Networking
         {
             Debug.Log("[CLIENT] We disconnected because " + disconnectInfo.Reason);
             IsConnected = false;
+            listener.NetworkReceiveUnconnectedEvent += OnNetworkReceiveUnconnected;
         }
 
         private void PeerConnected(NetPeer peer)

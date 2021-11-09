@@ -116,9 +116,16 @@ namespace XRMultiplayer.Networking
 
         private void PeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
         {
-            DisconnectMessage disconnectMessage = new DisconnectMessage();
-            disconnectMessage.DisconnectedUserID = dataManager.Players.FirstOrDefault(x => x.Value.connection == peer).Value.ID;
-            MessageProcessors[MessageTypes.Disconnect].AddOutMessage(disconnectMessage);
+            try
+            {
+                DisconnectMessage disconnectMessage = new DisconnectMessage();
+                disconnectMessage.DisconnectedUserID = dataManager.Players.FirstOrDefault(x => x.Value.connection == peer).Value.ID;
+                MessageProcessors[MessageTypes.Disconnect].AddOutMessage(disconnectMessage);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log($"Player disconnect failed to be handled: {ex}");
+            }
         }
 
         private IEnumerator ServerUpdate()
@@ -153,5 +160,5 @@ namespace XRMultiplayer.Networking
                 yield return new WaitForSeconds(0.5f);
             }
         }
-    } 
+    }
 }

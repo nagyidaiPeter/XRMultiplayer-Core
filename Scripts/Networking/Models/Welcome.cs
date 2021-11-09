@@ -1,4 +1,7 @@
 ﻿using FlatBuffers;
+
+using LiteNetLib;
+
 using XRMultiplayer.Packets;
 
 namespace XRMultiplayer.Models
@@ -8,6 +11,8 @@ namespace XRMultiplayer.Models
         public string Name { get; set; } = "Player";
 
         public new MessageTypes MsgType = MessageTypes.Welcome;
+
+        public NetPeer sender;
 
         public Welcome() { }
 
