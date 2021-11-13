@@ -12,7 +12,7 @@ using LiteNetLib;
 
 namespace XRMultiplayer.Networking.SERVER.Processors
 {
-    public class ServerWelcomeProcessor : BaseProcessor
+    public class ServerWelcomeProcessor : BaseProcessor, IServerProcessor
     {
         public new Queue<Welcome> IncomingMessages { get; set; } = new Queue<Welcome>();
         public new Queue<Welcome> OutgoingMessages { get; set; } = new Queue<Welcome>();
@@ -22,6 +22,8 @@ namespace XRMultiplayer.Networking.SERVER.Processors
 
         [Inject]
         private NetworkPlayer.Factory playerFactory;
+
+        public override MessageTypes MessageType { get { return MessageTypes.Welcome; } }
 
         public override bool AddInMessage(byte[] message, NetPeer player)
         {

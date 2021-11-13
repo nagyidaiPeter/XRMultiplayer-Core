@@ -12,7 +12,7 @@ using XRMultiplayer.Packets;
 
 namespace XRMultiplayer.Networking.SERVER.Processors
 {
-    public class ServerPlayTransProcessor : BaseProcessor
+    public class ServerPlayTransProcessor : BaseProcessor, IServerProcessor
     {
         public new Queue<PlayerTransform> IncomingMessages { get; set; } = new Queue<PlayerTransform>();
 
@@ -20,6 +20,8 @@ namespace XRMultiplayer.Networking.SERVER.Processors
 
         [Inject]
         private Server server;
+
+        public override MessageTypes MessageType { get { return MessageTypes.PlayerTransform; } }
 
         public override bool AddOutMessage(BaseMessageType objectToSend)
         {

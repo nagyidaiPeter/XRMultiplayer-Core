@@ -10,6 +10,8 @@ namespace XRMultiplayer.Networking
         public Queue<BaseMessageType> IncomingMessages { get; set; } = new Queue<BaseMessageType>();
         public Queue<BaseMessageType> OutgoingMessages { get; set; } = new Queue<BaseMessageType>();
 
+        public virtual MessageTypes MessageType => throw new System.NotImplementedException();
+
         [Inject]
         protected DataManager dataManager;
 

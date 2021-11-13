@@ -10,6 +10,8 @@ namespace XRMultiplayer.Networking
 
         Queue<BaseMessageType> OutgoingMessages { get; set; }
 
+        MessageTypes MessageType { get; }
+
         bool AddInMessage(byte[] message, NetPeer player);
 
         bool AddOutMessage(BaseMessageType objectToSend);

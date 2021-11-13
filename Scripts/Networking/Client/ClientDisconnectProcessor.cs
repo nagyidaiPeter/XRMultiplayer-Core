@@ -11,13 +11,15 @@ using LiteNetLib;
 
 namespace XRMultiplayer.Networking.CLIENT.Processors
 {
-    public class ClientDisconnectProcessor : BaseProcessor
+    public class ClientDisconnectProcessor : BaseProcessor, IClientProcessor
     {
         public new Queue<DisconnectMessage> IncomingMessages { get; set; } = new Queue<DisconnectMessage>();
         public new Queue<DisconnectMessage> OutgoingMessages { get; set; } = new Queue<DisconnectMessage>();
 
         [Inject]
         private Server server;
+
+        public override MessageTypes MessageType { get { return MessageTypes.Disconnect; } }
 
         public override void ProcessIncoming()
         {

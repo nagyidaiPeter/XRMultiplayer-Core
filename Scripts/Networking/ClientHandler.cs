@@ -8,6 +8,8 @@ using UnityEngine;
 
 using Zenject;
 using XRMultiplayer.Networking.CLIENT.Processors;
+using System;
+using System.Linq;
 
 namespace XRMultiplayer.Networking
 {
@@ -23,19 +25,28 @@ namespace XRMultiplayer.Networking
         public Dictionary<MessageTypes, IProcessor> MessageProcessors = new Dictionary<MessageTypes, IProcessor>();
 
         [Inject]
-        public void Init(Client client, DataManager dataManager, ClientPlayTransProcessor clientPlayTransProcessor, ClientDisconnectProcessor clientDisconnect,
-            ClientWelcomeProcessor clientWelcome, ClientObjectProcessor objectProcessor)
+        public void Init(Client client, DataManager dataManager, DiContainer _container)
         {
             this.client = client;
             this.dataManager = dataManager;
 
             this.client.netPacketProcessor.SubscribeReusable<WrapperPacket, NetPeer>(OnPacketReceived);
 
-            //todo: This will get out of hand if we need more processors, rework this to collect all processors from assembly with reflection or similar solution
-            MessageProcessors.Add(MessageTypes.PlayerTransform, clientPlayTransProcessor);
-            MessageProcessors.Add(MessageTypes.Welcome, clientWelcome);
-            MessageProcessors.Add(MessageTypes.Disconnect, clientDisconnect);
-            MessageProcessors.Add(MessageTypes.ObjectTransform, objectProcessor);
+            //Get all client message processors filtered with namespace
+            Type[] processors = typeof(IClientProcessor).Assembly.GetTypes()
+              .Where(t => t.Namespace != null)
+              .Where(t => t.Namespace.StartsWith("XRMultiplayer.Networking.CLIENT", StringComparison.Ordinal))
+              .Where(t => t.IsSubclassOf(typeof(BaseProcessor)))
+              .Where(t => !t.IsAbstract)
+              .ToArray();
+
+            foreach (var proc in processors)
+            {
+                if (_container.Resolve(proc) is IProcessor resolvedProc)
+                {
+                    MessageProcessors.Add(resolvedProc.MessageType, resolvedProc);
+                }
+            }
         }
 
         private void OnPacketReceived(WrapperPacket wrapperPacket, NetPeer peer)

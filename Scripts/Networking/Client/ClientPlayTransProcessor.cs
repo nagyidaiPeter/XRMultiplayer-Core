@@ -10,7 +10,7 @@ using LiteNetLib;
 
 namespace XRMultiplayer.Networking.CLIENT.Processors
 {
-    public class ClientPlayTransProcessor : BaseProcessor
+    public class ClientPlayTransProcessor : BaseProcessor, IClientProcessor
     {
         public new Queue<PlayerTransform> IncomingMessages { get; set; } = new Queue<PlayerTransform>();
 
@@ -22,6 +22,7 @@ namespace XRMultiplayer.Networking.CLIENT.Processors
         [Inject]
         private NetworkPlayer.Factory playerFactory;
 
+        public override MessageTypes MessageType { get { return MessageTypes.PlayerTransform; } }
         public override bool AddInMessage(byte[] message, NetPeer player)
         {
             var transformList = PlayerTransform.DeserializeStack(message);

@@ -11,13 +11,15 @@ using UnityEngine;
 
 namespace XRMultiplayer.Networking.CLIENT.Processors
 {
-    public class ClientWelcomeProcessor : BaseProcessor
+    public class ClientWelcomeProcessor : BaseProcessor, IClientProcessor
     {
         public new Queue<Welcome> IncomingMessages { get; set; } = new Queue<Welcome>();
         public new Queue<Welcome> OutgoingMessages { get; set; } = new Queue<Welcome>();
 
         [Inject]
         private Client client;
+
+        public override MessageTypes MessageType { get { return MessageTypes.Welcome; } }
 
         public override bool AddInMessage(byte[] message, NetPeer player)
         {

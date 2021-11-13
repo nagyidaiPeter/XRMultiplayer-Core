@@ -14,6 +14,7 @@ using System.Linq;
 using UnityEngine;
 
 using Zenject;
+using System;
 
 namespace XRMultiplayer.Networking
 {
@@ -33,18 +34,26 @@ namespace XRMultiplayer.Networking
         private NetworkObject.ObjectFactory objectFactory;
 
         [Inject]
-        public void Init(Server server, DataManager dataManager,
-                ServerPlayTransProcessor playerTransformProc, ServerWelcomeProcessor serverWelcomeProcessor,
-                ServerDisconnectProcessor disconnectProcessor, ServerObjectProcessor objectProcessor)
+        public void Init(Server server, DataManager dataManager, DiContainer _container)
         {
             this.server = server;
             this.dataManager = dataManager;
 
-            //todo: This will get out of hand if we need more processors, rework this to collect all processors from assembly with reflection or similar solution
-            MessageProcessors.Add(MessageTypes.PlayerTransform, playerTransformProc);
-            MessageProcessors.Add(MessageTypes.Welcome, serverWelcomeProcessor);
-            MessageProcessors.Add(MessageTypes.Disconnect, disconnectProcessor);
-            MessageProcessors.Add(MessageTypes.ObjectTransform, objectProcessor);
+            //Get all server message processors filtered with namespace
+            Type[] processors = typeof(IClientProcessor).Assembly.GetTypes()
+              .Where(t => t.Namespace != null)
+              .Where(t => t.Namespace.StartsWith("XRMultiplayer.Networking.SERVER", StringComparison.Ordinal))
+              .Where(t => t.IsSubclassOf(typeof(BaseProcessor)))
+              .Where(t => !t.IsAbstract)
+              .ToArray();
+
+            foreach (var proc in processors)
+            {
+                if (_container.Resolve(proc) is IProcessor resolvedProc)
+                {
+                    MessageProcessors.Add(resolvedProc.MessageType, resolvedProc);
+                }
+            }
 
             this.server.netPacketProcessor.SubscribeReusable<WrapperPacket, NetPeer>(OnPacketReceived);
         }
